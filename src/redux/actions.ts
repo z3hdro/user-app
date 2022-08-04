@@ -1,7 +1,12 @@
-import {Types} from './constants';
-import {setUsersAction} from './types';
+import {TYPES} from './constants';
+import {setErrorAction, setUsersAction} from './types';
 
 export const setUsers = (users: any): setUsersAction => ({
-  type: Types.USERS_FETCH_SUCCEEDED,
+  type: TYPES.USERS_FETCH_SUCCEEDED,
   users,
+});
+
+export const setError = (error: string): setErrorAction => ({
+  type: TYPES.USERS_FETCH_FAILED,
+  message: error,
 });

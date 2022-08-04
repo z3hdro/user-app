@@ -10,17 +10,17 @@ const UserCard: FC<UserCardProps> = ({
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={onPress}>
       <View style={styles.pictureBox}>
-        <Image style={styles.picture} source={{uri: user.picture.medium}} />
+        <Image style={styles.picture} source={{uri: user.picture}} />
       </View>
       <View>
         <View style={styles.infoBox}>
-          <Text>{`${user?.name?.first} ${user?.name?.last}`}</Text>
+          <Text>{`${user.firstName} ${user.lastName}`}</Text>
         </View>
         <View style={styles.infoBox}>
-          <Text>{user?.email}</Text>
+          <Text>{user.email}</Text>
         </View>
         <View style={styles.infoBox}>
-          <Text>{user?.location?.city}</Text>
+          <Text>{user.address.city}</Text>
         </View>
       </View>
     </TouchableOpacity>

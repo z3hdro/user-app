@@ -1,35 +1,40 @@
-import React, {FC, useEffect} from 'react';
-import {View, StyleSheet, Button} from 'react-native';
+import React, {FC, useCallback, useEffect} from 'react';
+import {View, StyleSheet, Button, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {Types} from '../../redux/constants';
+import {TYPES} from '../../redux/constants';
 import {State} from '../../redux/types';
 import {getRandomInt} from './helpers';
+import {IndexScreenProps} from '../../navigation/types';
+import {STRING_PACK} from '../../constants/StringPack';
 
-const IndexScreen: FC<any> = ({navigation}): JSX.Element => {
+const IndexScreen: FC<IndexScreenProps> = ({navigation}): JSX.Element => {
   const dispatch = useDispatch();
-  const data = useSelector((state: State) => state.users);
+  const {users, error} = useSelector((state: State) => state);
 
   useEffect(() => {
-    dispatch({type: Types.USERS_FETCH_REQUESTED});
+    dispatch({type: TYPES.USERS_FETCH_REQUESTED});
   }, [dispatch]);
 
-  const onUsersListPress = (): void => {
+  const onUsersListPress = useCallback((): void => {
     navigation.navigate('UsersListScreen');
-  };
+  }, [navigation]);
 
   const onRandomizeUser = (): void => {
-    let user;
-    if (data.length > 0) {
-      const randomInt = getRandomInt(data.length);
-      user = data[randomInt];
-    } else {
-      user = null;
+    let user = null;
+    if (users.length > 0) {
+      const randomInt = getRandomInt(users.length);
+      user = users[randomInt];
     }
     navigation.navigate('UserScreen', {user});
   };
 
   return (
     <View style={styles.container}>
+      {error && (
+        <View style={styles.errorBox}>
+          <Text style={styles.errorText}>{STRING_PACK.FETCH_ERROR}</Text>
+        </View>
+      )}
       <View>
         <View style={styles.button}>
           <Button
@@ -59,6 +64,14 @@ const styles = StyleSheet.create({
   button: {
     width: 200,
     marginVertical: 20,
+  },
+  errorBox: {
+    marginVertical: 20,
+  },
+  errorText: {
+    fontSize: 16,
+    color: 'red',
+    fontWeight: 'bold',
   },
 });
 

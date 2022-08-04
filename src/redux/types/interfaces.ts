@@ -1,13 +1,19 @@
 import {Action} from 'redux';
-import {Types} from '../constants';
+import {TYPES} from '../constants';
 
 export interface State {
   users: any[];
+  error: '';
 }
 
 export interface setUsersAction
-  extends Action<typeof Types.USERS_FETCH_SUCCEEDED> {
+  extends Action<typeof TYPES.USERS_FETCH_SUCCEEDED> {
   [key: string]: any;
 }
 
-export type Actions = setUsersAction;
+export interface setErrorAction
+  extends Action<typeof TYPES.USERS_FETCH_FAILED> {
+  [key: string]: any;
+}
+
+export type Actions = setUsersAction | setErrorAction;

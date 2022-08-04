@@ -1,36 +1,33 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import {StyleSheet, View, Button} from 'react-native';
 import {UserCard} from '../../components/UserCard';
 import ErrorPage from './parts/ErrorPage';
+import {UserScreenProps} from '../../navigation/types';
 
-const UserScreen: FC<any> = ({navigation, route}): JSX.Element => {
-  const {user} = route.params;
+const UserScreen: FC<UserScreenProps> = React.memo(
+  ({navigation, route}): JSX.Element => {
+    const {user} = route.params;
 
-  const onReturn = (): void => {
-    navigation.goBack();
-  };
+    const onReturn = useCallback((): void => {
+      navigation.goBack();
+    }, [navigation]);
 
-  const renderContent = (): JSX.Element => {
-    if (user) {
-      return (
-        <View style={styles.user}>
-          <UserCard item={user} />
+    return (
+      <View style={styles.container}>
+        {user ? (
+          <View style={styles.user}>
+            <UserCard item={user} />
+          </View>
+        ) : (
+          <ErrorPage />
+        )}
+        <View style={styles.button}>
+          <Button onPress={onReturn} color={'pink'} title={'Back'} />
         </View>
-      );
-    } else {
-      return <ErrorPage />;
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      {renderContent()}
-      <View style={styles.button}>
-        <Button onPress={onReturn} color={'pink'} title={'Back'} />
       </View>
-    </View>
-  );
-};
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   container: {

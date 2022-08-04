@@ -1,16 +1,23 @@
 import {Reducer} from 'redux';
-import {Types} from './constants';
+import {TYPES} from './constants';
 import {Actions, State} from './types';
 
 export const initialState: State = {
   users: [],
+  error: '',
 };
 
 const reducer: Reducer<State, Actions> = (state = initialState, action) => {
   switch (action.type) {
-    case Types.USERS_FETCH_SUCCEEDED:
+    case TYPES.USERS_FETCH_SUCCEEDED:
       return {
+        ...state,
         users: action.users,
+      };
+    case TYPES.USERS_FETCH_FAILED:
+      return {
+        ...state,
+        error: action.message,
       };
     default:
       return state;

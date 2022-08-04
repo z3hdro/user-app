@@ -1,13 +1,14 @@
 import React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
+import {STRING_PACK} from '../../../constants/StringPack';
 
-const ErrorPage = (): JSX.Element => {
+const ErrorPage = React.memo((): JSX.Element => {
   return (
     <View style={styles.errorBox}>
-      <Text style={styles.errorText}>Sorry, user not found!</Text>
+      <Text style={styles.errorText}>{STRING_PACK.USER_ERROR}</Text>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   errorBox: {
